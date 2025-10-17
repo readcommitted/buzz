@@ -1,0 +1,6 @@
+scripts/serve.js
+.vscode/extensions.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/settings.json
+.DS_Store
