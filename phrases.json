@@ -1,0 +1,148 @@
+{
+  "order": [
+    "Default",
+    "AI Gibberish",
+    "Consultant Deluxe",
+    "Data Eng",
+    "Sales Speak"
+  ],
+  "packs": {
+    "Default": {
+      "phrases": [
+        "We need to standardize on the canonical model.",
+        "Let\u2019s operationalize the synergies at scale.",
+        "I can\u2019t test the efficacy of the modality.",
+        "We\u2019ll right-size the orchestration layer.",
+        "Let\u2019s circle back after we land the narrative.",
+        "Can we decouple that into a pluggable fa\u00e7ade?",
+        "Instrument the feedback loop and socialize outcomes.",
+        "Drive alignment via outcome-oriented governance.",
+        "De-risk the roadmap with iterative value slices."
+      ]
+    },
+    "AI Gibberish": {
+      "templates": [
+        {
+          "parts": [
+            [
+              "Leverage",
+              "Harmonize",
+              "Productize",
+              "Operationalize"
+            ],
+            [
+              "multi-modal",
+              "agentic",
+              "self-healing",
+              "cot-aware",
+              "RAG-native"
+            ],
+            [
+              "workflows",
+              "modalities",
+              "pipelines",
+              "copilots"
+            ],
+            [
+              "at scale",
+              "end to end",
+              "across the stack",
+              "with tight guardrails"
+            ]
+          ]
+        },
+        {
+          "parts": [
+            [
+              "Align",
+              "Converge",
+              "Federate",
+              "Rationalize"
+            ],
+            [
+              "vectorized",
+              "memory-augmented",
+              "feedback-aligned"
+            ],
+            [
+              "architectures",
+              "playbooks",
+              "LLMOps runbooks"
+            ],
+            [
+              "for business outcomes",
+              "for measurable ROI",
+              "for faster time-to-value"
+            ]
+          ]
+        }
+      ]
+    },
+    "Consultant Deluxe": {
+      "phrases": [
+        "Let\u2019s frame this as a value stream mapping exercise.",
+        "We\u2019ll anchor to north-star outcomes and ladder the work.",
+        "Let\u2019s timebox a spike and validate the hypothesis.",
+        "We\u2019ll codify the operating model with swimlanes and RACI."
+      ],
+      "templates": [
+        {
+          "parts": [
+            [
+              "Decompose",
+              "Sequence",
+              "Prioritize"
+            ],
+            [
+              "value slices",
+              "workstreams",
+              "capabilities"
+            ],
+            [
+              "to de-risk delivery",
+              "to accelerate benefits realization",
+              "to maximize optionality"
+            ]
+          ]
+        }
+      ]
+    },
+    "Data Eng": {
+      "phrases": [
+        "Harden the CDC path and decouple the ingestion plane.",
+        "Treat schemas as contracts; shift-left on data quality.",
+        "Push down compute and let Iceberg handle the rest.",
+        "Mask PII at the edge; expose a gold semantic layer."
+      ],
+      "templates": [
+        {
+          "parts": [
+            [
+              "Standardize",
+              "Federate",
+              "Catalog"
+            ],
+            [
+              "business terms",
+              "data products",
+              "SLA-backed feeds"
+            ],
+            [
+              "in a governed marketplace",
+              "with lineage",
+              "under policy-as-code"
+            ]
+          ]
+        }
+      ]
+    },
+    "Sales Speak": {
+      "phrases": [
+        "We\u2019re uniquely positioned to meet you where you are.",
+        "Let\u2019s co-create a roadmap that accelerates value.",
+        "Happy to partner on a proof-of-value next sprint.",
+        "We can scale usage-based as you realize outcomes."
+      ]
+    }
+  }
+}
