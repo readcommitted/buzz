@@ -1,15 +1,16 @@
 <!doctype html>
 <html lang="en">
 
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="manifest" href="manifest.json">
-  
+
   <link rel="icon" href="favicon.png" sizes="32x32">
-  <link rel="icon" href="icon-180.png" sizes="180x180">        
-  <link rel="apple-touch-icon" href="icon-180.png">              
-  <link rel="mask-icon" href="icon-192-maskable.png" color="#0ea5a6">   
+  <link rel="icon" href="icon-180.png" sizes="180x180">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="mask-icon" href="icon-192-maskable.png" color="#0ea5a6">
 
   <meta name="theme-color" content="#111827" />
   <title>Buzzword Ball</title>
@@ -141,11 +142,11 @@
     }
 
     const phraseEl = document.getElementById('phrase');
-    const newBtn   = document.getElementById('new');
+    const newBtn = document.getElementById('new');
     const shareBtn = document.getElementById('share');
-    const favBtn   = document.getElementById('fav');
-    const packsEl  = document.getElementById('packs');
-    const cardEl   = document.getElementById('card');
+    const favBtn = document.getElementById('fav');
+    const packsEl = document.getElementById('packs');
+    const cardEl = document.getElementById('card');
 
     let DATA = { packs: {}, order: [] };
     let activePack = null;
@@ -209,7 +210,7 @@
     shareBtn.addEventListener('click', async () => {
       const p = phraseEl.textContent;
       if (navigator.share) {
-        try { await navigator.share({ text: p, title: 'Buzzword Ball' }); } catch {}
+        try { await navigator.share({ text: p, title: 'Buzzword Ball' }); } catch { }
       } else {
         await navigator.clipboard.writeText(p);
         shareBtn.textContent = 'Copied!';
