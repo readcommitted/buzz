@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,35 +8,119 @@
   <meta name="theme-color" content="#111827" />
   <title>Buzzword Ball</title>
   <style>
-    :root { --bg:#0b1220; --card:#111827; --fg:#e5e7eb; --muted:#9ca3af; --accent:#22d3ee; }
-    @media (prefers-color-scheme: light) {
-      :root { --bg:#f6f7fb; --card:#ffffff; --fg:#0b1220; --muted:#4b5563; --accent:#0ea5a6; }
+    :root {
+      --bg: #0b1220;
+      --card: #111827;
+      --fg: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #22d3ee;
     }
-    html,body{height:100%}
-    body { margin:0; background:var(--bg); color:var(--fg);
-           font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; 
-           display:flex; align-items:center; justify-content:center; padding:24px; }
-    .card { max-width:720px; width:100%; padding:28px; border-radius:18px; background:var(--card);
-            box-shadow: 0 20px 60px rgba(0,0,0,.25); text-align:center; }
-    h1 { margin:8px 0 2px; font-size: clamp(24px, 3vw, 34px); letter-spacing:.2px }
-    .sub { color: var(--muted); margin:0 0 16px; font-size:14px }
-    .phrase { font-size: clamp(22px, 3.2vw, 34px); line-height:1.25; margin: 16px 0 18px; }
-    button { font-size: 15px; padding: 10px 16px; border-radius: 999px; border: 0; cursor: pointer; 
-             background: var(--accent); color: #04242b; font-weight: 600; }
-    .row { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; }
-    .muted { color: var(--muted); font-size: 12px; }
-    .packs { display:flex; gap:8px; justify-content:center; margin: 12px 0 0; flex-wrap: wrap; }
-    .pill { border:1px solid rgba(255,255,255,.12); padding:6px 10px; border-radius:999px; cursor:pointer; }
-    .pill.active { background: rgba(255,255,255,.08); }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f6f7fb;
+        --card: #ffffff;
+        --fg: #0b1220;
+        --muted: #4b5563;
+        --accent: #0ea5a6;
+      }
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      max-width: 720px;
+      width: 100%;
+      padding: 28px;
+      border-radius: 18px;
+      background: var(--card);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 8px 0 2px;
+      font-size: clamp(24px, 3vw, 34px);
+      letter-spacing: .2px
+    }
+
+    .sub {
+      color: var(--muted);
+      margin: 0 0 16px;
+      font-size: 14px
+    }
+
+    .phrase {
+      font-size: clamp(22px, 3.2vw, 34px);
+      line-height: 1.25;
+      margin: 16px 0 18px;
+    }
+
+    button {
+      font-size: 15px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 0;
+      cursor: pointer;
+      background: var(--accent);
+      color: #04242b;
+      font-weight: 600;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .packs {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin: 12px 0 0;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      border: 1px solid rgba(255, 255, 255, .12);
+      padding: 6px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .pill.active {
+      background: rgba(255, 255, 255, .08);
+    }
   </style>
 </head>
+
 <body>
   <div class="card" id="card">
     <h1>Buzzword Ball 🔮</h1>
-    <p class="sub">Shake for chaos. Tap for safe mode.</p>
-    <div class="phrase" id="phrase">Tap “Allow Motion” then shake your phone!</div>
+    <p class="sub">Tap anywhere or hit “New Phrase”.</p>
+    <div class="phrase" id="phrase">Tap the card or hit “New Phrase”.</div>
     <div class="row" style="margin-bottom:10px">
-      <button id="allow">Allow Motion</button>
+      <!-- Removed Allow Motion button -->
       <button id="new">New Phrase</button>
       <button id="share">Share</button>
       <button id="fav">★ Save</button>
@@ -50,29 +135,28 @@
     }
 
     const phraseEl = document.getElementById('phrase');
-    const allowBtn = document.getElementById('allow');
-    const newBtn = document.getElementById('new');
+    const newBtn   = document.getElementById('new');
     const shareBtn = document.getElementById('share');
-    const favBtn = document.getElementById('fav');
-    const packsEl = document.getElementById('packs');
-    const cardEl = document.getElementById('card');
+    const favBtn   = document.getElementById('fav');
+    const packsEl  = document.getElementById('packs');
+    const cardEl   = document.getElementById('card');
 
     let DATA = { packs: {}, order: [] };
     let activePack = null;
-    let favorites = JSON.parse(localStorage.getItem('buzzword_favs')||'[]');
+    let favorites = JSON.parse(localStorage.getItem('buzzword_favs') || '[]');
 
     function renderPacks() {
       packsEl.innerHTML = '';
       DATA.order.forEach(name => {
         const el = document.createElement('div');
-        el.className = 'pill' + (name===activePack ? ' active':'');
+        el.className = 'pill' + (name === activePack ? ' active' : '');
         el.textContent = name;
         el.onclick = () => { activePack = name; renderPacks(); pick(); };
         packsEl.appendChild(el);
       });
     }
 
-    function sample(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+    function sample(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
     function buildFromTemplate(t) {
       return t.parts.map(sample).join(' ');
@@ -85,7 +169,7 @@
       if (pack.phrases) pool = pool.concat(pack.phrases);
       if (pack.templates) {
         const n = 5;
-        for (let i=0;i<n;i++) pool.push(buildFromTemplate(sample(pack.templates)));
+        for (let i = 0; i < n; i++) pool.push(buildFromTemplate(sample(pack.templates)));
       }
       return pool.length ? pool : ["Let’s circle back after we land the narrative."];
     }
@@ -97,6 +181,7 @@
       return p;
     }
 
+    // Tap/click anywhere on the card (except buttons) to get a new phrase
     cardEl.addEventListener('click', (e) => {
       if (['BUTTON'].includes(e.target.tagName)) return;
       pick();
@@ -112,56 +197,21 @@
         localStorage.setItem('buzzword_favs', JSON.stringify(favorites));
       }
       favBtn.textContent = '★ Saved';
-      setTimeout(()=>favBtn.textContent='★ Save', 700);
+      setTimeout(() => favBtn.textContent = '★ Save', 700);
     });
 
     shareBtn.addEventListener('click', async () => {
       const p = phraseEl.textContent;
       if (navigator.share) {
-        try { await navigator.share({text:p, title:'Buzzword Ball'}); } catch {}
+        try { await navigator.share({ text: p, title: 'Buzzword Ball' }); } catch {}
       } else {
         await navigator.clipboard.writeText(p);
         shareBtn.textContent = 'Copied!';
-        setTimeout(()=>shareBtn.textContent='Share', 700);
+        setTimeout(() => shareBtn.textContent = 'Share', 700);
       }
     });
 
-    async function enableMotion() {
-      try {
-        if (typeof DeviceMotionEvent !== 'undefined' &&
-            typeof DeviceMotionEvent.requestPermission === 'function') {
-          const perm = await DeviceMotionEvent.requestPermission();
-          if (perm !== 'granted') { phraseEl.textContent = "Motion not allowed 😢 Tap card or New."; return; }
-        }
-        allowBtn.remove();
-        startShake();
-        pick();
-      } catch (e) {
-        phraseEl.textContent = "Motion unavailable. Tap card or New.";
-      }
-    }
-    allowBtn.addEventListener('click', enableMotion);
-
-    function startShake() {
-      let last = {x:null,y:null,z:null}, lastTime = 0;
-      window.addEventListener('devicemotion', (e) => {
-        const now = Date.now();
-        if (now - lastTime < 400) return;
-        const acc = e.accelerationIncludingGravity || e.acceleration || {x:0,y:0,z:0};
-        if (last.x !== null) {
-          const dx = Math.abs(acc.x - last.x);
-          const dy = Math.abs(acc.y - last.y);
-          const dz = Math.abs(acc.z - last.z);
-          if (dx + dy + dz > 30) {
-            pick();
-            if (navigator.vibrate) navigator.vibrate(50);
-            lastTime = now;
-          }
-        }
-        last = {x:acc.x, y:acc.y, z:acc.z};
-      });
-    }
-
+    // Load phrases as before
     fetch('phrases.json')
       .then(r => r.json())
       .then(json => {
@@ -171,11 +221,13 @@
         pick();
       })
       .catch(() => {
-        DATA = { packs:{ Default:{ phrases:["We need to standardize on the canonical model."] }}, order:["Default"] };
+        DATA = { packs: { Default: { phrases: ["We need to standardize on the canonical model."] } }, order: ["Default"] };
         activePack = "Default";
         renderPacks();
         pick();
       });
   </script>
 </body>
+
+
 </html>
