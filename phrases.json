@@ -2,6 +2,7 @@
   "order": [
     "Default",
     "AI Gibberish",
+    "Cloud",
     "Consultant Deluxe",
     "Data Eng",
     "Sales Speak"
@@ -31,6 +32,14 @@
       ]
     },
     "AI Gibberish": {
+      "phrases": [
+        "Make retrieval do the heavy lifting; keep prompts skinny and factual.",
+        "Instrument hallucination rate and close the loop with grounded feedback.",
+        "Tool-calling for precision; guardrails for safety; telemetry for trust.",
+        "Fine-tune where it matters, distill where it scales.",
+        "Separate reasoning from recall: RAG for truth, agents for orchestration.",
+        "Latency is UX—cache embeddings, stream tokens, pre-warm the path."
+      ],
       "templates": [
         {
           "parts": [
@@ -57,7 +66,10 @@
               "at scale",
               "end to end",
               "across the stack",
-              "with tight guardrails"
+              "with tight guardrails",
+              "with evals-as-code",
+              "with policy-aware prompts",
+              "with human-in-the-loop"
             ]
           ]
         },
@@ -83,6 +95,42 @@
               "for business outcomes",
               "for measurable ROI",
               "for faster time-to-value"
+            ]
+          ]
+        }
+      ]
+    },
+    "Cloud": {
+      "phrases": [
+        "Meet the workload where it lives—hybrid by default, multi-cloud by design.",
+        "Abstract the substrate; standardize on a portable control plane.",
+        "Containerize the pattern and let the scheduler arbitrate placement.",
+        "Right-size with autoscaling; right-shape with spot and reservations.",
+        "Treat regions as failure domains; test the blast radius, not just uptime.",
+        "Decouple state from compute; replicate metadata, not snowflake configs."
+      ],
+      "templates": [
+        {
+          "parts": [
+            [
+              "Federate",
+              "Rationalize",
+              "Standardize"
+            ],
+            [
+              "landing zones",
+              "service meshes",
+              "platform APIs"
+            ],
+            [
+              "across clouds",
+              "across regions",
+              "at the edge"
+            ],
+            [
+              "with policy guardrails",
+              "with zero-touch onboarding",
+              "with golden paths"
             ]
           ]
         }
