@@ -14,28 +14,22 @@
 
   <meta name="theme-color" content="#111827" />
   <title>Buzzword Ball</title>
-  <link href="styles.css" rel="stylesheet" type="text/css">
+  <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
   <div class="card" id="card">
-    export function TitleWithBallTip() {
-    return (
-    <h1 className="inline-flex items-center gap-2 my-4 group">
+    <h1 class="app-title">
       Buzzword Ball
-      <span className="relative inline-flex">
-        <button aria-describedby="buzzword-tip" aria-label="About Buzzword Ball"
-          className="text-2xl leading-none cursor-help rounded px-1 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-indigo-500">
+      <span class="tooltip">
+        <button class="tooltip__trigger" aria-describedby="buzzword-tip" aria-label="About Buzzword Ball">
           🔮
         </button>
-        <span role="tooltip" id="buzzword-tip"
-          className="absolute left-1/2 -translate-x-1/2 bottom-[calc(100%+10px)] min-w-[220px] max-w-[320px] p-3 rounded-lg bg-slate-900 text-slate-50 shadow-lg text-sm leading-snug pointer-events-none opacity-0 invisible transition-opacity duration-150 group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible">
+        <span class="tooltip__content" role="tooltip" id="buzzword-tip">
           Satire ahead: phrases may sound strategic while meaning nothing.
         </span>
       </span>
     </h1>
-    );
-    }
 
     <p class="sub">Tap anywhere or hit “New Phrase”.</p>
     <div class="phrase" id="phrase">Tap the card or hit “New Phrase”.</div>
