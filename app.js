@@ -1,4 +1,4 @@
-// -------- app.js (tap-anywhere + no double-tap zoom) --------
+// -------- app.js (tap-anywhere + buttons/chips fixed) --------
 document.addEventListener('DOMContentLoaded', () => {
     const phraseEl = document.getElementById('phrase');
     const shareBtn = document.getElementById('share');
@@ -130,13 +130,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (shareBtn) shareBtn.addEventListener('click', shareCurrent);
     if (favBtn) favBtn.addEventListener('click', toggleSave);
 
-    // ---------- Tap anywhere on card (no zoom) ----------
-    function isControlClick(target) {
+    // ---------- Tap anywhere on card (no zoom, but DON'T block controls) ----------
+    function isControl(target) {
         return !!(target.closest('.tooltip') || target.closest('.actions') || target.closest('.packs'));
     }
 
     const activate = (e) => {
-        if (isControlClick(e.target)) return;
+        if (isControl(e.target)) return;  // let buttons/chips work
         pick();
         if (navigator.vibrate) navigator.vibrate(15);
     };
@@ -146,19 +146,27 @@ document.addEventListener('DOMContentLoaded', () => {
         cardEl.addEventListener('click', activate);
     }
 
-    // Touch: prevent double-tap zoom & synthetic click
+    // Touch: prevent double-tap zoom ONLY when we're handling the tap
     let lastTouchTime = 0;
     if (cardEl) {
         cardEl.addEventListener('touchend', (e) => {
+            const controlTap = isControl(e.target);
             const now = Date.now();
-            if (now - lastTouchTime < 350) {
-                e.preventDefault();     // block double-tap zoom
+
+            // Only manage zoom/click suppression for NON-control taps
+            if (!controlTap) {
+                if (now - lastTouchTime < 350) {
+                    e.preventDefault();     // block double-tap zoom
+                    lastTouchTime = now;
+                    return;
+                }
                 lastTouchTime = now;
-                return;
+                e.preventDefault();       // block the synthetic mouse event
+                activate(e);
+            } else {
+                // Controls: allow default so their own click handlers fire
+                lastTouchTime = now;
             }
-            lastTouchTime = now;
-            e.preventDefault();       // block the follow-up mouse event
-            if (!isControlClick(e.target)) activate(e);
         }, { passive: false });
     }
 
