@@ -361,7 +361,7 @@ html {
     -webkit-text-size-adjust: 100%;
 }
 
-/* (You already added this, but keep it) fixed 3-line phrase window */
+
 .phrase {
     line-height: 1.35;
     min-height: calc(3 * 1.35em);
@@ -372,4 +372,80 @@ html {
     overflow: hidden;
     text-overflow: ellipsis;
     margin-inline: auto;
+}
+
+
+/* --- Mobile layout polish: center vertically, prevent side cutoffs --- */
+:root {
+    --content-max: 680px;
+    /* soft max width for text blocks */
+    --gutter: 16px;
+    /* side padding */
+}
+
+/* Ensure the app actually centers on small screens */
+@media (max-width: 768px) {
+    .app {
+        height: 100vh;
+        height: 100dvh;
+        /* modern mobile viewport */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        /* let the card fill edge-to-edge */
+    }
+
+    .card {
+        width: 100vw;
+        min-height: 100vh;
+        min-height: 100dvh;
+        border-radius: 0;
+        /* center content vertically inside the card */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /* <- key change (was flex-start) */
+        align-items: center;
+
+        /* safe areas + side gutters so text never touches the edge */
+        padding-top: max(24px, env(safe-area-inset-top));
+        padding-right: max(var(--gutter), env(safe-area-inset-right));
+        padding-bottom: max(24px, env(safe-area-inset-bottom));
+        padding-left: max(var(--gutter), env(safe-area-inset-left));
+        gap: 10px;
+        text-align: center;
+        /* center title/subtitle/phrase */
+    }
+
+    /* Constrain line length + add side breathing room for all key blocks */
+    .app-title,
+    .subtitle,
+    #packs,
+    .actions,
+    .phrase {
+        max-width: min(92vw, var(--content-max));
+        padding-inline: var(--gutter);
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Phrase: wrap safely; never overflow horizontally */
+    .phrase {
+        overflow-wrap: anywhere;
+        /* breaks long tokens if needed */
+        word-break: normal;
+        hyphens: auto;
+    }
+}
+
+/* Also helpful on all screens to avoid side cutoffs on narrow widths */
+.app-title,
+.subtitle,
+#packs,
+.actions,
+.phrase {
+    max-width: min(92vw, var(--content-max));
+    margin-left: auto;
+    margin-right: auto;
 }
