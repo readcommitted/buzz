@@ -97,7 +97,8 @@
 
     // Tap/click anywhere on the card (except buttons) to get a new phrase
     cardEl.addEventListener('click', (e) => {
-      if (['BUTTON'].includes(e.target.tagName)) return;
+      if (e.target.tagName === 'BUTTON') return;
+      if (e.target.closest('.tooltip')) return;  // ignore tooltip clicks/hover taps
       pick();
       if (navigator.vibrate) navigator.vibrate(30);
     });
