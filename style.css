@@ -449,3 +449,29 @@ html {
     margin-left: auto;
     margin-right: auto;
 }
+
+/* --- Desktop: prevent side truncation on the phrase --- */
+@media (min-width: 769px) {
+    .card {
+        overflow: visible;
+    }
+
+    /* don't crop children */
+
+    .phrase {
+        box-sizing: border-box;
+        /* include padding in width */
+        max-width: 720px;
+        /* comfy line length */
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-inline: 16px;
+        /* breathing room at edges */
+
+        /* ensure long tokens wrap instead of pushing out */
+        overflow-wrap: anywhere;
+        word-break: normal;
+        hyphens: auto;
+    }
+}
