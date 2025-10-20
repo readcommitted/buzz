@@ -79,13 +79,13 @@
               "Align",
               "Converge",
               "Federate",
-              "Rationalize"
+              "Rationalize",
+              "Effectuate"
             ],
             [
               "vectorized",
               "memory-augmented",
-              "feedback-aligned",
-              "effectuate"
+              "feedback-aligned"
             ],
             [
               "architectures",
@@ -116,7 +116,8 @@
             [
               "Federate",
               "Rationalize",
-              "Standardize"
+              "Standardize",
+              "Effectuate"
             ],
             [
               "landing zones",
@@ -154,13 +155,13 @@
             [
               "Decompose",
               "Sequence",
-              "Prioritize"
+              "Prioritize",
+              "Effectuate"
             ],
             [
               "value slices",
               "workstreams",
-              "capabilities",
-              "effectuate"
+              "capabilities"
             ],
             [
               "to de-risk delivery",
