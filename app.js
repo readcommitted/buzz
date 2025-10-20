@@ -1,104 +1,150 @@
-// (optional) register the service worker AFTER your app loads
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js?v=dev3')
-            .then(reg => console.log('SW registered', reg.scope))
-            .catch(err => console.warn('SW registration failed', err));
-    });
-}
+// -------- app.js (phrases + templates) --------
+document.addEventListener('DOMContentLoaded', () => {
+    const phraseEl = document.getElementById('phrase');
+    const newBtn = document.getElementById('new');
+    const shareBtn = document.getElementById('share');
+    const favBtn = document.getElementById('fav');
+    const packsEl = document.getElementById('packs');
 
+    let DATA = { order: [], packs: {} };
+    let currentPack = null;
+    let lastText = '';
 
+    // utils
+    const choice = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-const phraseEl = document.getElementById('phrase');
-const newBtn = document.getElementById('new');
-const shareBtn = document.getElementById('share');
-const favBtn = document.getElementById('fav');
-const packsEl = document.getElementById('packs');
-const cardEl = document.getElementById('card');
-
-let DATA = { packs: {}, order: [] };
-let activePack = null;
-let favorites = JSON.parse(localStorage.getItem('buzzword_favs') || '[]');
-
-function renderPacks() {
-    packsEl.innerHTML = '';
-    DATA.order.forEach(name => {
-        const el = document.createElement('div');
-        el.className = 'pill' + (name === activePack ? ' active' : '');
-        el.textContent = name;
-        el.onclick = () => { activePack = name; renderPacks(); pick(); };
-        packsEl.appendChild(el);
-    });
-}
-
-function sample(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-
-function buildFromTemplate(t) {
-    return t.parts.map(sample).join(' ');
-}
-
-function getPool() {
-    const pack = DATA.packs[activePack];
-    if (!pack) return ["We need to standardize on the canonical model."];
-    let pool = [];
-    if (pack.phrases) pool = pool.concat(pack.phrases);
-    if (pack.templates) {
-        const n = 5;
-        for (let i = 0; i < n; i++) pool.push(buildFromTemplate(sample(pack.templates)));
+    // turn a template into a sentence by picking 1 item per "parts" slot
+    // templates look like: { "parts": [ ["A","B"], ["X","Y"], ... ] }  :contentReference[oaicite:0]{index=0}
+    function makeFromTemplate(tpl) {
+        const parts = Array.isArray(tpl?.parts) ? tpl.parts : [];
+        if (!parts.length) return null;
+        const words = parts.map(group => choice(group));
+        let s = words.join(' ');
+        // add a trailing period if none present
+        if (!/[.!?]$/.test(s)) s += '.';
+        return s;
     }
-    return pool.length ? pool : ["Let’s circle back after we land the narrative."];
-}
 
-function pick() {
-    const pool = getPool();
-    const p = sample(pool);
-    phraseEl.textContent = p;
-    return p;
-}
-
-// Tap/click anywhere on the card (except buttons) to get a new phrase
-cardEl.addEventListener('click', (e) => {
-    if (e.target.tagName === 'BUTTON') return;
-    if (e.target.closest('.tooltip')) return;  // ignore tooltip clicks/hover taps
-    pick();
-    if (navigator.vibrate) navigator.vibrate(30);
-});
-
-newBtn.addEventListener('click', () => pick());
-
-favBtn.addEventListener('click', () => {
-    const p = phraseEl.textContent;
-    if (!favorites.includes(p)) {
-        favorites.push(p);
-        localStorage.setItem('buzzword_favs', JSON.stringify(favorites));
+    function packPhrases(name) {
+        const arr = DATA?.packs?.[name]?.phrases;
+        return Array.isArray(arr) ? arr : [];
     }
-    favBtn.textContent = '★ Saved';
-    setTimeout(() => favBtn.textContent = '★ Save', 700);
-});
 
-shareBtn.addEventListener('click', async () => {
-    const p = phraseEl.textContent;
-    if (navigator.share) {
-        try { await navigator.share({ text: p, title: 'Buzzword Ball' }); } catch { }
-    } else {
-        await navigator.clipboard.writeText(p);
-        shareBtn.textContent = 'Copied!';
-        setTimeout(() => shareBtn.textContent = 'Share', 700);
+    function packTemplates(name) {
+        const arr = DATA?.packs?.[name]?.templates;
+        return Array.isArray(arr) ? arr : [];
     }
-});
 
-// Load phrases as before
-fetch('phrases.json')
-    .then(r => r.json())
-    .then(json => {
-        DATA = json;
-        activePack = DATA.order[0];
-        renderPacks();
-        pick();
-    })
-    .catch(() => {
-        DATA = { packs: { Default: { phrases: ["We need to standardize on the canonical model."] } }, order: ["Default"] };
-        activePack = "Default";
-        renderPacks();
-        pick();
-    });
+    function pick() {
+        if (!currentPack) {
+            phraseEl.textContent = 'No packs loaded.';
+            return;
+        }
+        const phrases = packPhrases(currentPack);
+        const templates = packTemplates(currentPack);
+
+        // weight toward templates if they exist so it feels fresher
+        const useTemplate = templates.length && Math.random() < 0.65;
+
+        let attempt = 0;
+        let text = '';
+        while (attempt++ < 8) {
+            if (useTemplate) {
+                text = makeFromTemplate(choice(templates));
+            } else if (phrases.length) {
+                text = choice(phrases);
+            } else if (templates.length) {
+                text = makeFromTemplate(choice(templates));
+            } else {
+                text = 'No phrases in this pack.';
+            }
+            if (text && text !== lastText) break; // avoid immediate repeat
+        }
+
+        lastText = text;
+        phraseEl.textContent = text;
+        updateSaveUI();
+    }
+
+    function renderPacks() {
+        const names = (DATA.order?.length ? DATA.order : Object.keys(DATA.packs)) || [];
+        packsEl.innerHTML = names.map((name) => `
+      <button class="chip ${name === currentPack ? 'active' : ''}"
+              data-pack="${encodeURIComponent(name)}" title="${name}">
+        <span class="chip-name">${name}</span>
+      </button>
+    `).join('');
+
+        packsEl.querySelectorAll('.chip').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const name = decodeURIComponent(e.currentTarget.getAttribute('data-pack'));
+                if (!DATA.packs[name]) return;
+                currentPack = name;
+                packsEl.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                lastText = ''; // reset anti-repeat when switching packs
+                pick();
+            });
+        });
+    }
+
+    // --- Share & Save (localStorage) ---
+    const SAVED_KEY = 'bb_saved_v1';
+    const loadSaved = () => {
+        try { return new Set(JSON.parse(localStorage.getItem(SAVED_KEY) || '[]')); }
+        catch { return new Set(); }
+    };
+    const saveSaved = (set) => localStorage.setItem(SAVED_KEY, JSON.stringify([...set]));
+    let saved = loadSaved();
+
+    function toggleSave() {
+        const text = phraseEl?.textContent?.trim();
+        if (!text) return;
+        saved.has(text) ? saved.delete(text) : saved.add(text);
+        saveSaved(saved);
+        updateSaveUI();
+    }
+    function updateSaveUI() {
+        if (!favBtn) return;
+        const text = phraseEl?.textContent?.trim();
+        const isSaved = text && saved.has(text);
+        favBtn.textContent = isSaved ? '★ Saved' : '★ Save';
+        favBtn.classList.toggle('btn-primary', isSaved);
+    }
+
+    async function shareCurrent() {
+        const text = phraseEl?.textContent?.trim();
+        if (!text) return;
+        const payload = { title: 'Buzzword Ball', text, url: location.href };
+        try {
+            if (navigator.share) {
+                await navigator.share(payload);
+            } else if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(`${text} — ${location.href}`);
+                console.log('Copied to clipboard');
+            } else {
+                prompt('Copy this phrase:', text);
+            }
+        } catch (_) { }
+    }
+
+    // wire buttons
+    if (newBtn) newBtn.addEventListener('click', () => { pick(); if (navigator.vibrate) navigator.vibrate(15); });
+    if (shareBtn) shareBtn.addEventListener('click', shareCurrent);
+    if (favBtn) favBtn.addEventListener('click', toggleSave);
+
+    // load phrases.json (no cache) and init
+    fetch('phrases.json', { cache: 'no-store' })
+        .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+        .then(json => {
+            // expects { order: [...], packs: { Name: { phrases:[...], templates:[{parts:[...]}, ...] } } }  :contentReference[oaicite:1]{index=1}
+            DATA = json || { order: [], packs: {} };
+            currentPack = DATA.order?.[0] || Object.keys(DATA.packs)[0] || null;
+            renderPacks();
+            pick();
+        })
+        .catch(err => {
+            console.error('Failed to load phrases.json:', err);
+            phraseEl.textContent = 'Could not load phrases.';
+        });
+});

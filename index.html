@@ -4,7 +4,8 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
   <link rel="manifest" href="manifest.json">
 
   <link rel="icon" href="favicon.png" sizes="32x32">
@@ -14,7 +15,20 @@
 
   <meta name="theme-color" content="#111827" />
   <title>Buzzword Ball</title>
-  <link href="./style.css" rel="stylesheet" type="text/css">
+  <link href="style.css" rel="stylesheet" type="text/css">
+  <script>
+    window.BUZZWORD_DATA = {
+      order: ["Default", "AI Gibberish", "Consultant Deluxe", "Data Eng", "Sales Speak"],
+      packs: {
+        "Default": { phrases: ["We need to standardize on the canonical model.", "Let’s right-size the orchestration layer."] },
+        "AI Gibberish": { phrases: ["We can’t test the efficacy of the modality.", "Instrument modality-level telemetry end-to-end."] },
+        "Consultant Deluxe": { phrases: ["Operationalize the synergies at scale.", "Realign around the strategic fulcrum."] },
+        "Data Eng": { phrases: ["Decouple into a pluggable façade.", "Canonicalize entities in the semantic layer."] },
+        "Sales Speak": { phrases: ["Drive alignment via outcome-oriented governance.", "De-risk the roadmap with iterative value slices."] }
+      }
+    };
+  </script>
+  <script src="app.js"></script>
 </head>
 
 <body>
@@ -30,9 +44,10 @@
         </span>
       </h1>
 
-      <p class="subtitle">Tap anywhere for satire.</p>
-      <div class="phrase" id="phrase">Tap the card or hit “New Phrase”.</div>
-      <div class="row actions">
+      <p class="subtitle">Tap "New Phrase" for satire.</p>
+      <p id="phrase" class="phrase"></p>
+      <div class="actions">
+        <button id="new" class="btn btn-primary">New Phrase</button>
         <button id="share" class="btn">Share</button>
         <button id="fav" class="btn btn-ghost">★ Save</button>
       </div>
@@ -40,7 +55,6 @@
       <p class="muted">Install: Share → “Add to Home Screen” (iOS) or browser menu → “Install app” (Android/desktop).
       </p>
     </div>
-    <script src="app.js?v=dev3" defer></script>
 
   </main>
 </body>

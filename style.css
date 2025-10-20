@@ -1,6 +1,6 @@
-/* ------------------------------
+/* ==============================
    Base / Reset
---------------------------------*/
+============================== */
 *,
 *::before,
 *::after {
@@ -19,34 +19,38 @@ body {
     --card-bg: rgba(255, 255, 255, 0.04);
     --shadow: 0 12px 30px rgba(0, 0, 0, .25);
     --ring: #6366f1;
-    /* focus ring / accent */
     --tooltip-bg: #111827;
     --tooltip-fg: #f9fafb;
 }
 
-/* Improve text rendering */
 body {
     margin: 0;
     background: var(--bg);
     color: var(--text);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
-/* Nice text selection */
 *::selection {
     background: rgba(99, 102, 241, .35);
 }
 
-/* ------------------------------
+/* ==============================
    App Layout
---------------------------------*/
+============================== */
 .app {
-    min-height: 100dvh;
-    /* correct on mobile address-bar changes */
-    padding:
-        max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+    /* real full-height across browsers */
+    height: 100vh;
+    height: 100dvh;
+    height: 100svh;
+    width: 100%;
+
+    padding-top: max(16px, env(safe-area-inset-top));
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+    padding-left: max(16px, env(safe-area-inset-left));
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,14 +59,20 @@ body {
 
 .card {
     width: min(760px, 92vw);
+    min-height: 460px;
+    /* nice presence on desktop */
     border-radius: 16px;
     padding: clamp(16px, 3vw, 32px);
     background: var(--card-bg);
     box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .04);
     backdrop-filter: blur(8px);
+    text-align: center;
+    /* center title + subtitle + text */
+    user-select: none;
+    /* avoid accidental selections on tap */
 }
 
-/* Full-bleed on phones */
+/* Mobile: full-bleed card */
 @media (max-width: 768px) {
     .app {
         padding: 0;
@@ -70,26 +80,28 @@ body {
 
     .card {
         width: 100vw;
+        min-height: 100vh;
         min-height: 100dvh;
+        min-height: 100svh;
         border-radius: 0;
         padding: 24px;
+
+        display: flex;
+        /* keep content from hugging the top */
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 8px;
     }
 }
 
-/* Give desktop a little height so it feels “present” */
-@media (min-width: 769px) {
-    .card {
-        min-height: 460px;
-    }
-}
-
-/* ------------------------------
+/* ==============================
    Typography
---------------------------------*/
+============================== */
 .app-title {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: .5rem;
     margin: 0 0 .5rem 0;
     font-size: clamp(1.6rem, 2.4vw + 1rem, 2.4rem);
 }
@@ -100,12 +112,39 @@ body {
     font-size: clamp(.95rem, 1.2vw + .4rem, 1.1rem);
 }
 
+
+
 .phrase {
     font-size: clamp(1.2rem, 3.2vw + .5rem, 2.2rem);
     line-height: 1.35;
+
+    /* fixed 3-line box (works everywhere) */
+    min-height: calc(3 * 1.35em);
+    max-height: calc(3 * 1.35em);
+
+    /* clamp & ellipsis for overflow text */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* keep it centered */
+    margin-inline: auto;
 }
 
-/* Buttons / controls */
+
+/* ==============================
+   Buttons / Actions
+============================== */
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 10px 0 14px;
+}
+
 button {
     font: inherit;
     color: inherit;
@@ -120,117 +159,7 @@ button:focus-visible {
     outline-offset: 2px;
 }
 
-button,
-.tooltip__trigger {
-    min-width: 44px;
-    min-height: 44px;
-    /* thumb-friendly targets */
-}
-
-/* ------------------------------
-   Tooltip (🔮 trigger inside H1)
---------------------------------*/
-.tooltip {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-}
-
-.tooltip__trigger {
-    /* reset handled by button styles above */
-    line-height: 1;
-    font-size: 1.25em;
-    /* scale the emoji relative to title */
-    display: grid;
-    place-items: center;
-    border-radius: 8px;
-    padding: 0 .2rem;
-    /* makes focus ring look nice */
-    cursor: help;
-}
-
-.tooltip__content {
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + 10px);
-    transform: translateX(-50%) translateY(4px);
-    min-width: 220px;
-    max-width: 320px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    background: var(--tooltip-bg);
-    color: var(--tooltip-fg);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
-    font-size: 0.9rem;
-    line-height: 1.25;
-    pointer-events: none;
-
-    opacity: 0;
-    visibility: hidden;
-    transition:
-        opacity .15s ease,
-        transform .15s ease,
-        visibility .15s linear;
-    z-index: 1000;
-}
-
-/* Tooltip arrow */
-.tooltip__content::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    width: 10px;
-    height: 10px;
-    background: var(--tooltip-bg);
-    transform: translateX(-50%) rotate(45deg);
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, .04);
-}
-
-/* Show tooltip on hover or keyboard focus */
-.tooltip:hover .tooltip__content,
-.tooltip:focus-within .tooltip__content {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-    .tooltip__content {
-        transition: none;
-    }
-}
-
-/* ------------------------------
-   Utility (optional)
---------------------------------*/
-.center {
-    text-align: center;
-}
-
-.muted {
-    color: var(--muted);
-}
-
-.hidden {
-    display: none !important;
-}
-
-/* Ensure the main container truly centers */
-.app {
-    width: 100%;
-}
-
-/* Action row */
-.actions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin: 10px 0 14px;
-}
-
-/* Buttons – visible, tactile */
+/* Pill buttons */
 .btn {
     background: rgba(255, 255, 255, .08);
     border: 1px solid rgba(255, 255, 255, .14);
@@ -238,6 +167,9 @@ button,
     border-radius: 999px;
     font-weight: 600;
     line-height: 1;
+    min-width: 44px;
+    /* thumb-friendly */
+    min-height: 44px;
     transition: transform .06s ease, background .15s ease, border-color .15s ease;
 }
 
@@ -258,7 +190,160 @@ button,
     background: rgba(255, 255, 255, .06);
 }
 
-/* Optional: prevent accidental text selection on rapid taps */
-.card {
-    user-select: none;
+.btn-primary {
+    background: #4f46e5;
+    /* indigo-600 */
+    border-color: #4f46e5;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #4338ca;
+}
+
+/* indigo-700 */
+
+/* ==============================
+   Tooltip (🔮 as trigger)
+============================== */
+.tooltip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.tooltip__trigger {
+    line-height: 1;
+    font-size: 1.25em;
+    /* scale emoji relative to title */
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    padding: 0 .2rem;
+    cursor: help;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.tooltip__content {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 10px);
+    transform: translateX(-50%) translateY(4px);
+    min-width: 220px;
+    max-width: 320px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--tooltip-bg);
+    color: var(--tooltip-fg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+    font-size: .9rem;
+    line-height: 1.25;
+    pointer-events: none;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .15s ease, transform .15s ease, visibility .15s linear;
+    z-index: 1000;
+}
+
+.tooltip__content::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: var(--tooltip-bg);
+    transform: translateX(-50%) rotate(45deg);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .04);
+}
+
+.tooltip:hover .tooltip__content,
+.tooltip:focus-within .tooltip__content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .tooltip__content {
+        transition: none;
+    }
+}
+
+/* ==============================
+   Utilities
+============================== */
+.center {
+    text-align: center;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Packs row */
+.packs,
+#packs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 12px 0 8px;
+}
+
+/* Chip button */
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, .14);
+    background: rgba(255, 255, 255, .06);
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    line-height: 1;
+    transition: background .15s ease, border-color .15s ease, transform .06s ease;
+}
+
+.chip:hover {
+    background: rgba(255, 255, 255, .10);
+}
+
+.chip:active {
+    transform: translateY(1px) scale(.99);
+}
+
+.chip.active {
+    background: #4f46e5;
+    /* indigo-600 */
+    border-color: #4f46e5;
+    color: #fff;
+}
+
+/* Small count bubble */
+.chip-count {
+    font-size: .8em;
+    opacity: .85;
+    padding: 2px 6px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, .18);
+}
+
+.chip.active .chip-count {
+    background: rgba(255, 255, 255, .22);
+}
+
+/* Empty state */
+.packs-empty {
+    opacity: .7;
+    font-style: italic;
 }

@@ -1,6 +1,6 @@
 // sw.js
-const CACHE = 'buzzword-ball-v7'; // bump when HTML/CSS/JS change
-const ASSETS = ['./', './index.html', './manifest.json']; // ⬅️ no phrases.json here
+const CACHE = 'buzzword-ball';
+const ASSETS = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', e => {
     self.skipWaiting();
