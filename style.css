@@ -1,0 +1,189 @@
+.app-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+/* Tooltip wrapper */
+.tooltip {
+    position: relative;
+    display: inline-flex;
+}
+
+/* The 🔮 trigger */
+.tooltip__trigger {
+    all: unset;
+    /* reset default button styles */
+    cursor: help;
+    line-height: 1;
+    font-size: 1.25em;
+    /* scale emoji a bit relative to h1 */
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    padding: 0 .2rem;
+    /* makes focus outline look nicer */
+}
+
+.tooltip__trigger:focus-visible {
+    outline: 2px solid #6366f1;
+    /* accessible focus ring */
+    outline-offset: 2px;
+}
+
+/* Tooltip bubble */
+.tooltip__content {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 10px);
+    transform: translateX(-50%) translateY(4px);
+    min-width: 220px;
+    max-width: 320px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #111827;
+    /* near-black */
+    color: #f9fafb;
+    /* near-white */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+    font-size: 0.9rem;
+    line-height: 1.25;
+    pointer-events: none;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .15s ease, transform .15s ease, visibility .15s linear;
+    z-index: 1000;
+}
+
+/* Little arrow */
+.tooltip__content::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: #111827;
+    transform: translateX(-50%) rotate(45deg);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .04);
+}
+
+/* Show on hover or keyboard focus */
+.tooltip:hover .tooltip__content,
+.tooltip:focus-within .tooltip__content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tooltip__content {
+        transition: none;
+    }
+}
+
+:root {
+    --bg: #0b1220;
+    --card: #111827;
+    --fg: #e5e7eb;
+    --muted: #9ca3af;
+    --accent: #22d3ee;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg: #f6f7fb;
+        --card: #ffffff;
+        --fg: #0b1220;
+        --muted: #4b5563;
+        --accent: #0ea5a6;
+    }
+}
+
+html,
+body {
+    height: 100%
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.card {
+    max-width: 720px;
+    width: 100%;
+    padding: 28px;
+    border-radius: 18px;
+    background: var(--card);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+    text-align: center;
+}
+
+h1 {
+    margin: 8px 0 2px;
+    font-size: clamp(24px, 3vw, 34px);
+    letter-spacing: .2px
+}
+
+.sub {
+    color: var(--muted);
+    margin: 0 0 16px;
+    font-size: 14px
+}
+
+.phrase {
+    font-size: clamp(22px, 3.2vw, 34px);
+    line-height: 1.25;
+    margin: 16px 0 18px;
+}
+
+button {
+    font-size: 15px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 0;
+    cursor: pointer;
+    background: var(--accent);
+    color: #04242b;
+    font-weight: 600;
+}
+
+.row {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.muted {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.packs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin: 12px 0 0;
+    flex-wrap: wrap;
+}
+
+.pill {
+    border: 1px solid rgba(255, 255, 255, .12);
+    padding: 6px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.pill.active {
+    background: rgba(255, 255, 255, .08);
+}

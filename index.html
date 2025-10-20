@@ -14,116 +14,22 @@
 
   <meta name="theme-color" content="#111827" />
   <title>Buzzword Ball</title>
-  <style>
-    :root {
-      --bg: #0b1220;
-      --card: #111827;
-      --fg: #e5e7eb;
-      --muted: #9ca3af;
-      --accent: #22d3ee;
-    }
-
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg: #f6f7fb;
-        --card: #ffffff;
-        --fg: #0b1220;
-        --muted: #4b5563;
-        --accent: #0ea5a6;
-      }
-    }
-
-    html,
-    body {
-      height: 100%
-    }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--fg);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
-    .card {
-      max-width: 720px;
-      width: 100%;
-      padding: 28px;
-      border-radius: 18px;
-      background: var(--card);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
-      text-align: center;
-    }
-
-    h1 {
-      margin: 8px 0 2px;
-      font-size: clamp(24px, 3vw, 34px);
-      letter-spacing: .2px
-    }
-
-    .sub {
-      color: var(--muted);
-      margin: 0 0 16px;
-      font-size: 14px
-    }
-
-    .phrase {
-      font-size: clamp(22px, 3.2vw, 34px);
-      line-height: 1.25;
-      margin: 16px 0 18px;
-    }
-
-    button {
-      font-size: 15px;
-      padding: 10px 16px;
-      border-radius: 999px;
-      border: 0;
-      cursor: pointer;
-      background: var(--accent);
-      color: #04242b;
-      font-weight: 600;
-    }
-
-    .row {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .muted {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .packs {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin: 12px 0 0;
-      flex-wrap: wrap;
-    }
-
-    .pill {
-      border: 1px solid rgba(255, 255, 255, .12);
-      padding: 6px 10px;
-      border-radius: 999px;
-      cursor: pointer;
-    }
-
-    .pill.active {
-      background: rgba(255, 255, 255, .08);
-    }
-  </style>
+  <link href="styles.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
   <div class="card" id="card">
-    <h1>Buzzword Ball 🔮</h1>
+    <h1 class="app-title">
+      Buzzword Ball
+      <span class="tooltip">
+        <button class="tooltip__trigger" aria-describedby="buzzword-tip" aria-label="About Buzzword Ball">
+          🔮
+        </button>
+        <span class="tooltip__content" role="tooltip" id="buzzword-tip">
+          Satire ahead: phrases may sound strategic while meaning nothing.
+        </span>
+      </span>
+    </h1>
     <p class="sub">Tap anywhere or hit “New Phrase”.</p>
     <div class="phrase" id="phrase">Tap the card or hit “New Phrase”.</div>
     <div class="row" style="margin-bottom:10px">
