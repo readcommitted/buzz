@@ -216,3 +216,49 @@ button,
 .hidden {
     display: none !important;
 }
+
+/* Ensure the main container truly centers */
+.app {
+    width: 100%;
+}
+
+/* Action row */
+.actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin: 10px 0 14px;
+}
+
+/* Buttons – visible, tactile */
+.btn {
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .14);
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-weight: 600;
+    line-height: 1;
+    transition: transform .06s ease, background .15s ease, border-color .15s ease;
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, .12);
+}
+
+.btn:active {
+    transform: translateY(1px) scale(.99);
+}
+
+.btn-ghost {
+    background: transparent;
+    border-color: rgba(255, 255, 255, .18);
+}
+
+.btn-ghost:hover {
+    background: rgba(255, 255, 255, .06);
+}
+
+/* Optional: prevent accidental text selection on rapid taps */
+.card {
+    user-select: none;
+}
