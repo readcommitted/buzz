@@ -84,7 +84,8 @@
             [
               "vectorized",
               "memory-augmented",
-              "feedback-aligned"
+              "feedback-aligned",
+              "effectuate"
             ],
             [
               "architectures",
@@ -158,7 +159,8 @@
             [
               "value slices",
               "workstreams",
-              "capabilities"
+              "capabilities",
+              "effectuate"
             ],
             [
               "to de-risk delivery",
