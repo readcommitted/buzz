@@ -347,3 +347,29 @@ button:focus-visible {
     opacity: .7;
     font-style: italic;
 }
+
+/* Prevent double-tap zoom & grey tap flash on iOS */
+.card,
+.actions,
+.packs {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Keep text size stable on iOS */
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+/* (You already added this, but keep it) fixed 3-line phrase window */
+.phrase {
+    line-height: 1.35;
+    min-height: calc(3 * 1.35em);
+    max-height: calc(3 * 1.35em);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-inline: auto;
+}

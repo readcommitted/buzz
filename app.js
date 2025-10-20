@@ -1,40 +1,35 @@
-// -------- app.js (phrases + templates) --------
+// -------- app.js (tap-anywhere + no double-tap zoom) --------
 document.addEventListener('DOMContentLoaded', () => {
     const phraseEl = document.getElementById('phrase');
-    const newBtn = document.getElementById('new');
     const shareBtn = document.getElementById('share');
     const favBtn = document.getElementById('fav');
     const packsEl = document.getElementById('packs');
+    const cardEl = document.getElementById('card');
 
     let DATA = { order: [], packs: {} };
     let currentPack = null;
     let lastText = '';
 
-    // utils
+    // ---------- utils ----------
     const choice = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-    // turn a template into a sentence by picking 1 item per "parts" slot
-    // templates look like: { "parts": [ ["A","B"], ["X","Y"], ... ] }  :contentReference[oaicite:0]{index=0}
+    // Template generator: { parts: [ ["A","B"], ["X","Y"], ... ] }
     function makeFromTemplate(tpl) {
         const parts = Array.isArray(tpl?.parts) ? tpl.parts : [];
         if (!parts.length) return null;
         const words = parts.map(group => choice(group));
         let s = words.join(' ');
-        // add a trailing period if none present
         if (!/[.!?]$/.test(s)) s += '.';
         return s;
     }
 
-    function packPhrases(name) {
-        const arr = DATA?.packs?.[name]?.phrases;
-        return Array.isArray(arr) ? arr : [];
-    }
+    const packPhrases = (name) =>
+        Array.isArray(DATA?.packs?.[name]?.phrases) ? DATA.packs[name].phrases : [];
 
-    function packTemplates(name) {
-        const arr = DATA?.packs?.[name]?.templates;
-        return Array.isArray(arr) ? arr : [];
-    }
+    const packTemplates = (name) =>
+        Array.isArray(DATA?.packs?.[name]?.templates) ? DATA.packs[name].templates : [];
 
+    // ---------- phrase picking (no immediate repeat) ----------
     function pick() {
         if (!currentPack) {
             phraseEl.textContent = 'No packs loaded.';
@@ -43,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const phrases = packPhrases(currentPack);
         const templates = packTemplates(currentPack);
 
-        // weight toward templates if they exist so it feels fresher
         const useTemplate = templates.length && Math.random() < 0.65;
 
         let attempt = 0;
@@ -58,19 +52,24 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 text = 'No phrases in this pack.';
             }
-            if (text && text !== lastText) break; // avoid immediate repeat
+            if (text && text !== lastText) break;
         }
 
         lastText = text;
         phraseEl.textContent = text;
         updateSaveUI();
     }
+    window.pick = pick; // optional for debugging
 
+    // ---------- packs UI ----------
     function renderPacks() {
         const names = (DATA.order?.length ? DATA.order : Object.keys(DATA.packs)) || [];
+        if (!packsEl) return;
+
         packsEl.innerHTML = names.map((name) => `
       <button class="chip ${name === currentPack ? 'active' : ''}"
-              data-pack="${encodeURIComponent(name)}" title="${name}">
+              data-pack="${encodeURIComponent(name)}"
+              title="${name}">
         <span class="chip-name">${name}</span>
       </button>
     `).join('');
@@ -82,13 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentPack = name;
                 packsEl.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
                 e.currentTarget.classList.add('active');
-                lastText = ''; // reset anti-repeat when switching packs
+                lastText = '';
                 pick();
             });
         });
     }
 
-    // --- Share & Save (localStorage) ---
+    // ---------- Share / Save ----------
     const SAVED_KEY = 'bb_saved_v1';
     const loadSaved = () => {
         try { return new Set(JSON.parse(localStorage.getItem(SAVED_KEY) || '[]')); }
@@ -128,16 +127,46 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (_) { }
     }
 
-    // wire buttons
-    if (newBtn) newBtn.addEventListener('click', () => { pick(); if (navigator.vibrate) navigator.vibrate(15); });
     if (shareBtn) shareBtn.addEventListener('click', shareCurrent);
     if (favBtn) favBtn.addEventListener('click', toggleSave);
 
-    // load phrases.json (no cache) and init
+    // ---------- Tap anywhere on card (no zoom) ----------
+    function isControlClick(target) {
+        return !!(target.closest('.tooltip') || target.closest('.actions') || target.closest('.packs'));
+    }
+
+    const activate = (e) => {
+        if (isControlClick(e.target)) return;
+        pick();
+        if (navigator.vibrate) navigator.vibrate(15);
+    };
+
+    // Click (desktop + general fallback)
+    if (cardEl) {
+        cardEl.addEventListener('click', activate);
+    }
+
+    // Touch: prevent double-tap zoom & synthetic click
+    let lastTouchTime = 0;
+    if (cardEl) {
+        cardEl.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchTime < 350) {
+                e.preventDefault();     // block double-tap zoom
+                lastTouchTime = now;
+                return;
+            }
+            lastTouchTime = now;
+            e.preventDefault();       // block the follow-up mouse event
+            if (!isControlClick(e.target)) activate(e);
+        }, { passive: false });
+    }
+
+    // ---------- init: load phrases.json ----------
     fetch('phrases.json', { cache: 'no-store' })
         .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
         .then(json => {
-            // expects { order: [...], packs: { Name: { phrases:[...], templates:[{parts:[...]}, ...] } } }  :contentReference[oaicite:1]{index=1}
+            // expects: { order: [...], packs: { Name: { phrases:[...], templates:[{parts:[...]}] } } }
             DATA = json || { order: [], packs: {} };
             currentPack = DATA.order?.[0] || Object.keys(DATA.packs)[0] || null;
             renderPacks();
