@@ -430,6 +430,99 @@
         }
       ]
     },
+    "Data Science": {
+      "phrases": [
+        "We’re rehydrating latent embeddings to restore epistemic integrity.",
+        "Our feature store achieved sentience and started backpropagating ethics.",
+        "We’re normalizing the priors until they confess to their own bias.",
+        "The causal graph self-optimized into a recursive Bayesian ouroboros.",
+        "We achieved 110% recall by training on Schrödinger’s validation set.",
+        "Our ensemble overfit reality but generalizes perfectly to imagination.",
+        "We refactored the loss function until it achieved emotional resilience.",
+        "The model drifted so far it discovered a new statistical continent.",
+        "We’re deconfounding with vibes and latent intent embeddings.",
+        "Our MLOps pipeline is now self-healing, self-loathing, and SOC2-compliant."
+      ],
+      "templates": [
+        {
+          "parts": [
+            [
+              "Profile",
+              "Cleanse",
+              "Impute",
+              "Engineer",
+              "Vectorize",
+              "Normalize",
+              "Standardize",
+              "Regularize",
+              "Stratify",
+              "Bootstrap",
+              "Cross-validate",
+              "Calibrate",
+              "Optimize",
+              "Fine-tune",
+              "Ensemble",
+              "Deploy",
+              "Monitor",
+              "A/B test"
+            ],
+            [
+              "datasets",
+              "features",
+              "feature stores",
+              "pipelines",
+              "hyperparameters",
+              "loss functions",
+              "priors and posteriors",
+              "embeddings",
+              "classifiers",
+              "time series",
+              "cohorts",
+              "baselines",
+              "causal graphs",
+              "propensity models",
+              "uplift models",
+              "experiments"
+            ],
+            [
+              "with stratified k-fold CV",
+              "under class imbalance",
+              "with SMOTE or class weights",
+              "with Bayesian priors",
+              "using Optuna for HPO",
+              "with early stopping",
+              "with SHAP-based explanations",
+              "with LIME for local explanations",
+              "to maximize F1",
+              "to minimize MAE",
+              "for calibrated probabilities",
+              "with conformal prediction intervals",
+              "with data and concept drift detection",
+              "with sliding-window evaluation",
+              "on streaming event data",
+              "on GPUs with vectorized ops",
+              "with DAG-based causal assumptions",
+              "to estimate treatment effects",
+              "with double robust estimators",
+              "with uplift scoring",
+              "with multivariate time series",
+              "with Prophet/ARIMA baselines",
+              "with cross-validation leakage checks",
+              "with bootstrapped confidence intervals",
+              "with A/B/n experiment tracking",
+              "under p95 latency SLOs",
+              "with feature store lineage",
+              "with offline/online parity checks",
+              "with canary deployments",
+              "with shadow traffic",
+              "with human-in-the-loop labeling",
+              "with active learning loops",
+              "with weak supervision"
+            ]
+          ]
+        }
+      ]
+    },
     "Sales Speak": {
       "phrases": [
         "We\u2019re uniquely positioned to meet you where you are.",
