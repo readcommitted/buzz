@@ -12,11 +12,11 @@
     "Default": {
       "phrases": [
         "We need to standardize on the canonical model.",
-        "Let\u2019s realign execution around the strategic fulcrum to amplify outcome velocity.",
-        "Let\u2019s operationalize the synergies at scale.",
-        "I can\u2019t test the efficacy of the modality.",
-        "We\u2019ll right-size the orchestration layer.",
-        "Let\u2019s circle back after we land the narrative.",
+        "Let’s realign execution around the strategic fulcrum to amplify outcome velocity.",
+        "Let’s operationalize the synergies at scale.",
+        "I can’t test the efficacy of the modality.",
+        "We’ll right-size the orchestration layer.",
+        "Let’s circle back after we land the narrative.",
         "Can we decouple that into a pluggable fa\u00e7ade?",
         "Instrument the feedback loop and socialize outcomes.",
         "Drive alignment via outcome-oriented governance.",
@@ -24,12 +24,12 @@
         "Position the canonical model as the strategic fulcrum, instrumenting modality-level telemetry to prove efficacy end-to-end.",
         "Make the semantic layer the force multiplier; push compute down and let Iceberg do the heavy lifting.",
         "We need to operationalize the canonical framework before assessing the strategic fulcrum.",
-        "Let\u2019s realign the epistemic baseline around our modality stack.",
+        "Let’s realign the epistemic baseline around our modality stack.",
         "The efficacy of the current vector is largely orthogonal to our intended paradigm.",
-        "We\u2019re validating the ontological boundary conditions of the model.",
-        "That\u2019s outside the actionable perimeter of our cognitive architecture.",
-        "The feedback loop hasn\u2019t stabilized around the emergent heuristics yet.",
-        "We can\u2019t quantify the delta without recalibrating the semiotic scaffolding."
+        "We’re validating the ontological boundary conditions of the model.",
+        "That’s outside the actionable perimeter of our cognitive architecture.",
+        "The feedback loop hasn’t stabilized around the emergent heuristics yet.",
+        "We can’t quantify the delta without recalibrating the semiotic scaffolding."
       ],
       "templates": [
         {
@@ -148,7 +148,10 @@
               "Instrument",
               "Ground",
               "Reinforce",
-              "Humanize"
+              "Humanize",
+              "Transcode",
+              "Compress",
+              "Stream"
             ],
             [
               "vectorized",
@@ -165,7 +168,11 @@
               "cross-domain",
               "self-healing",
               "intent-aware",
-              "auto-regressive"
+              "auto-regressive",
+              "temporal-aware",
+              "frame-synchronized",
+              "latency-adaptive",
+              "codec-aware"
             ],
             [
               "architectures",
@@ -181,7 +188,12 @@
               "autonomous agents",
               "semantic fabrics",
               "AI value chains",
-              "governance playbooks"
+              "governance playbooks",
+              "video embeddings",
+              "frame encoders",
+              "compression models",
+              "temporal transformers",
+              "streaming inference loops"
             ],
             [
               "for business outcomes",
@@ -196,7 +208,14 @@
               "for measurable business impact",
               "to scale responsible AI adoption",
               "to optimize inference efficiency",
-              "to operationalize applied intelligence"
+              "to operationalize applied intelligence",
+              "for real-time video understanding",
+              "to minimize bandwidth overhead",
+              "with perceptual quality preservation",
+              "under variable bit-rate governance",
+              "for low-latency streaming analytics",
+              "to enhance multimodal reasoning fidelity",
+              "through self-healing compression feedback loops"
             ]
           ]
         }
@@ -279,14 +298,14 @@
     },
     "Consultant Deluxe": {
       "phrases": [
-        "Let\u2019s frame this as a value stream mapping exercise.",
-        "We\u2019ll anchor to north-star outcomes and ladder the work.",
-        "Let\u2019s timebox a spike and validate the hypothesis.",
-        "We\u2019ll codify the operating model with swimlanes and RACI.",
-        "Let\u2019s double-click the problem space before we design solutions.",
-        "We\u2019ll triangulate across signals and right-size the scope.",
+        "Let’s frame this as a value stream mapping exercise.",
+        "We’ll anchor to north-star outcomes and ladder the work.",
+        "Let’s timebox a spike and validate the hypothesis.",
+        "We’ll codify the operating model with swimlanes and RACI.",
+        "Let’s double-click the problem space before we design solutions.",
+        "We’ll triangulate across signals and right-size the scope.",
         "Anchor on the solution frame and align on the strategic fulcrum.",
-        "Let\u2019s operationalize the canonical model and harden the seams."
+        "Let’s operationalize the canonical model and harden the seams."
       ],
       "templates": [
         {
@@ -356,13 +375,13 @@
         "Orchestrate via DAGs and monitor end-to-end SLAs.",
         "Adopt outcome-oriented sharding with emotionally consistent Iceberg snapshots.",
         "Enable zero-friction refreezing through idempotent flow commits.",
-        "We\u2019re leveraging a canonical pipeline to harmonize distributed modalities.",
+        "We’re leveraging a canonical pipeline to harmonize distributed modalities.",
         "Our vectorized approach enhances interpretive fidelity across latent dimensions.",
-        "The system\u2019s efficacy depends on emergent synergies between stochastic embeddings.",
-        "We\u2019re still de-risking the model drift along the orthogonal decision surfaces.",
-        "We\u2019re optimizing for cross-modal coherence rather than deterministic output.",
-        "The pipeline\u2019s interpretability gradient is still being tuned for semantic stability.",
-        "It\u2019s less about accuracy and more about aligning the epistemic signal."
+        "The system’s efficacy depends on emergent synergies between stochastic embeddings.",
+        "We’re still de-risking the model drift along the orthogonal decision surfaces.",
+        "We’re optimizing for cross-modal coherence rather than deterministic output.",
+        "The pipeline’s interpretability gradient is still being tuned for semantic stability.",
+        "It’s less about accuracy and more about aligning the epistemic signal."
       ],
       "templates": [
         {
@@ -526,18 +545,18 @@
     },
     "Sales Speak": {
       "phrases": [
-        "We\u2019re uniquely positioned to meet you where you are.",
-        "Let\u2019s co-create a roadmap that accelerates value.",
+        "We’re uniquely positioned to meet you where you are.",
+        "Let’s co-create a roadmap that accelerates value.",
         "Happy to partner on a proof-of-value next sprint.",
         "We can scale usage-based as you realize outcomes.",
-        "Let\u2019s right-align incentives to turn incremental wins into compounding advantage.",
-        "We\u2019ll monetize downstream once we standardize upstream.",
+        "Let’s right-align incentives to turn incremental wins into compounding advantage.",
+        "We’ll monetize downstream once we standardize upstream.",
         "We have to anchor our trajectory to the strategic fulcrum of transformative value.",
-        "Let\u2019s re-contextualize the modality within the broader efficacy framework.",
-        "We\u2019re shifting from a prescriptive to a reflexive architecture of outcomes.",
+        "Let’s re-contextualize the modality within the broader efficacy framework.",
+        "We’re shifting from a prescriptive to a reflexive architecture of outcomes.",
         "Our canonical model serves as the north star for operational resonance.",
-        "We\u2019re harmonizing modality efficacy with stakeholder intentionality.",
-        "Let\u2019s pivot the conversation from deliverables to emergent coherence."
+        "We’re harmonizing modality efficacy with stakeholder intentionality.",
+        "Let’s pivot the conversation from deliverables to emergent coherence."
       ]
     }
   }
