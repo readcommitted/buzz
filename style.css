@@ -101,19 +101,19 @@ body {
 .app-title {
     display: inline-flex;
     align-items: center;
-    gap: .5rem;
+    gap: .2rem;
     margin: 0 0 .5rem 0;
     font-size: clamp(1.6rem, 2.4vw + 1rem, 2.4rem);
 }
 
 .subtitle {
-    margin: 0 0 1.25rem 0;
+    margin: 0;
     color: var(--muted);
     font-size: clamp(.95rem, 1.2vw + .4rem, 1.1rem);
 }
 
 .subtitle2 {
-    margin: 0 0 0 0;
+    margin: 0;
     color: var(--muted);
     font-size: clamp(.95rem, 1.2vw + .4rem, 1.1rem);
 }
