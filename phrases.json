@@ -364,7 +364,7 @@
         }
       ]
     },
-    "Data Eng": {
+    "Data Engineering": {
       "phrases": [
         "Harden the CDC path and decouple the ingestion plane.",
         "Treat schemas as contracts; shift-left on data quality.",
