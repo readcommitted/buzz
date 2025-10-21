@@ -112,6 +112,11 @@ body {
     font-size: clamp(.95rem, 1.2vw + .4rem, 1.1rem);
 }
 
+.subtitle2 {
+    margin: 0 0 0 0;
+    color: var(--muted);
+    font-size: clamp(.95rem, 1.2vw + .4rem, 1.1rem);
+}
 
 
 .phrase {
