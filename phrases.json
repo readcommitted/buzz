@@ -405,7 +405,12 @@
               "domain-aligned datasets",
               "outcome metrics",
               "data value chains",
-              "knowledge graphs",
+              "knowledge graphs"
+            ],
+            [
+              "in a governed marketplace",
+              "with lineage",
+              "under policy-as-code",
               "to accelerate time-to-insight",
               "at hyperscale",
               "for business agility",
@@ -420,11 +425,6 @@
               "to unlock enterprise intelligence",
               "backed by SLA and governance",
               "through metadata-driven automation"
-            ],
-            [
-              "in a governed marketplace",
-              "with lineage",
-              "under policy-as-code"
             ]
           ]
         }
