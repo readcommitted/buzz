@@ -101,8 +101,8 @@ body {
 .app-title {
     display: inline-flex;
     align-items: center;
-    gap: .2rem;
-    margin: 0 0 .5rem 0;
+    gap: 0rem;
+    margin: 0 0 0 0;
     font-size: clamp(1.6rem, 2.4vw + 1rem, 2.4rem);
 }
 
