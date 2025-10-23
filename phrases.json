@@ -6,7 +6,8 @@
     "Consultant Deluxe",
     "Data Engineering",
     "Data Science",
-    "Sales Speak"
+    "Sales Speak",
+    "Encabulator"
   ],
   "packs": {
     "Default": {
@@ -557,6 +558,67 @@
         "Our canonical model serves as the north star for operational resonance.",
         "We’re harmonizing modality efficacy with stakeholder intentionality.",
         "Let’s pivot the conversation from deliverables to emergent coherence."
+      ]
+    },
+    "Encabulator": {
+      "phrases": [
+        "Automatically synchronize cardinal grammeters and supply inverse reactive current for use in unilateral phase detractors.",
+        "Power is produced by the modial interaction of magneto‑reluctance and capacitive diractance.",
+        "A base plate of prefabulated amulite surmounted by a malleable logarithmic casing.",
+        "Two spurving bearings in a direct line with the panametric fan.",
+        "Six hydrocoptic marzlevanes fitted to the ambifacient lunar waneshaft so side‑fumbling is prevented.",
+        "Main winding of the normal lotus‑o‑delta type in panendermic semi‑boloid slots of the stator.",
+        "Every seventh conductor connected by a non‑reversible tremie pipe to the differential girdle spring.",
+        "Whenever a forescent skor motion is required, employ a drawn reciprocation dingle arm.",
+        "Successfully used in the operation of novertrunnions.",
+        "Instrument comprised of Dodge gears, Reliance motors, Allen‑Bradley controls, monitored by Rockwell software.",
+        "Capable of automatically synchronizing cardinal grammeters while reducing sinusoidal depleneration.",
+        "Integrates hydrocoptic marzlevanes to dramatically reduce side‑fumbling.",
+        "Panametric fan alignment maintains orthogonal diractance across the waneshaft.",
+        "Non‑reversible tremie pipe ensures unilateral phase detractors remain idempotent."
+      ],
+      "templates": [
+        {
+          "parts": [
+            [
+              "Prefabricate",
+              "Calibrate",
+              "Retrofit",
+              "Recontextualize",
+              "Harmonize",
+              "Stabilize",
+              "Vectorize",
+              "Parametrize",
+              "Orthogonalize",
+              "Demodulate",
+              "Encapsulate"
+            ],
+            [
+              "hydrocoptic marzlevanes",
+              "cardinal grammeters",
+              "panendermic semi‑boloid slots",
+              "differential girdle springs",
+              "non‑reversible tremie pipes",
+              "ambifacient lunar waneshafts",
+              "panametric fans",
+              "lotus‑o‑delta windings",
+              "capacitive diractance matrices",
+              "magneto‑reluctance vectors"
+            ],
+            [
+              "to mitigate side‑fumbling",
+              "to stabilize unilateral phase detractors",
+              "for inverse reactive current provisioning",
+              "to reduce sinusoidal depleneration",
+              "to maintain modial interaction integrity",
+              "under panametric alignment constraints",
+              "within a prefabulated amulite enclosure",
+              "across the orthogonalized flux gradient",
+              "under retro‑encabulated control planes",
+              "with logarithmic casing tolerances"
+            ]
+          ]
+        }
       ]
     }
   }
