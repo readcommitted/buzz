@@ -6,8 +6,8 @@
     "Consultant Deluxe",
     "Data Engineering",
     "Data Science",
-    "Sales Speak",
-    "Encabulator"
+    "Encabulator",
+    "Sales Speak"
   ],
   "packs": {
     "Default": {
@@ -544,22 +544,6 @@
         }
       ]
     },
-    "Sales Speak": {
-      "phrases": [
-        "We’re uniquely positioned to meet you where you are.",
-        "Let’s co-create a roadmap that accelerates value.",
-        "Happy to partner on a proof-of-value next sprint.",
-        "We can scale usage-based as you realize outcomes.",
-        "Let’s right-align incentives to turn incremental wins into compounding advantage.",
-        "We’ll monetize downstream once we standardize upstream.",
-        "We have to anchor our trajectory to the strategic fulcrum of transformative value.",
-        "Let’s re-contextualize the modality within the broader efficacy framework.",
-        "We’re shifting from a prescriptive to a reflexive architecture of outcomes.",
-        "Our canonical model serves as the north star for operational resonance.",
-        "We’re harmonizing modality efficacy with stakeholder intentionality.",
-        "Let’s pivot the conversation from deliverables to emergent coherence."
-      ]
-    },
     "Encabulator": {
       "phrases": [
         "Automatically synchronize cardinal grammeters and supply inverse reactive current for use in unilateral phase detractors.",
@@ -619,6 +603,22 @@
             ]
           ]
         }
+      ]
+    },
+    "Sales Speak": {
+      "phrases": [
+        "We’re uniquely positioned to meet you where you are.",
+        "Let’s co-create a roadmap that accelerates value.",
+        "Happy to partner on a proof-of-value next sprint.",
+        "We can scale usage-based as you realize outcomes.",
+        "Let’s right-align incentives to turn incremental wins into compounding advantage.",
+        "We’ll monetize downstream once we standardize upstream.",
+        "We have to anchor our trajectory to the strategic fulcrum of transformative value.",
+        "Let’s re-contextualize the modality within the broader efficacy framework.",
+        "We’re shifting from a prescriptive to a reflexive architecture of outcomes.",
+        "Our canonical model serves as the north star for operational resonance.",
+        "We’re harmonizing modality efficacy with stakeholder intentionality.",
+        "Let’s pivot the conversation from deliverables to emergent coherence."
       ]
     }
   }
