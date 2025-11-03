@@ -138,7 +138,8 @@ body {
     /* prevent hyphenation / mid-word breaks */
     -webkit-hyphens: none;
     hyphens: none;
-    word-break: keep-all;
+    -webkit-hyphenate-character: "";
+    word-break: normal;
     /* don’t split words */
     overflow-wrap: normal;
     /* don’t force breaks inside words */
