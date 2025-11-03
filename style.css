@@ -123,11 +123,11 @@ body {
     font-size: clamp(1.2rem, 3.2vw + .5rem, 2.2rem);
     line-height: 1.35;
 
-    /* fixed 3-line box (works everywhere) */
+    /* fixed 4-line box */
     min-height: calc(4 * 1.35em);
     max-height: calc(4 * 1.35em);
 
-    /* clamp & ellipsis for overflow text */
+    /* 4-line clamp + ellipsis */
     display: -webkit-box;
     -webkit-line-clamp: 4;
     line-clamp: 4;
@@ -135,9 +135,18 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 
-    /* keep it centered */
+    /* prevent hyphenation / mid-word breaks */
+    -webkit-hyphens: none;
+    hyphens: none;
+    word-break: keep-all;
+    /* don’t split words */
+    overflow-wrap: normal;
+    /* don’t force breaks inside words */
+
+    /* center */
     margin-inline: auto;
 }
+
 
 
 /* ==============================
