@@ -1,298 +1,187 @@
-/* app.js — Buzzword Ball (templates weighted 75/25) */
+// -------- app.js (tap-anywhere + buttons/chips fixed) --------
+document.addEventListener('DOMContentLoaded', () => {
+    const phraseEl = document.getElementById('phrase');
+    const shareBtn = document.getElementById('share');
+    const favBtn = document.getElementById('fav');
+    const packsEl = document.getElementById('packs');
+    const cardEl = document.getElementById('card');
 
-(() => {
-    // ---------- Config ----------
-    const LS_KEYS = {
-        activePack: 'buzz.activePack',
-        favorites: 'buzz.favs',
-        weightOverrides: 'buzz.templateWeightOverrides'
+    let DATA = { order: [], packs: {} };
+    let currentPack = null;
+    let lastText = '';
+
+    // ---------- utils ----------
+    const choice = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+    // Template generator: { parts: [ ["A","B"], ["X","Y"], ... ] }
+    function makeFromTemplate(tpl) {
+        const parts = Array.isArray(tpl?.parts) ? tpl.parts : [];
+        if (!parts.length) return null;
+        const words = parts.map(group => choice(group));
+        let s = words.join(' ');
+        if (!/[.!?]$/.test(s)) s += '.';
+        return s;
+    }
+
+    const packPhrases = (name) =>
+        Array.isArray(DATA?.packs?.[name]?.phrases) ? DATA.packs[name].phrases : [];
+
+    const packTemplates = (name) =>
+        Array.isArray(DATA?.packs?.[name]?.templates) ? DATA.packs[name].templates : [];
+
+    // ---------- phrase picking (no immediate repeat) ----------
+    function pick() {
+        if (!currentPack) {
+            phraseEl.textContent = 'No packs loaded.';
+            return;
+        }
+        const phrases = packPhrases(currentPack);
+        const templates = packTemplates(currentPack);
+
+        const useTemplate = templates.length && Math.random() < 0.65;
+
+        let attempt = 0;
+        let text = '';
+        while (attempt++ < 8) {
+            if (useTemplate) {
+                text = makeFromTemplate(choice(templates));
+            } else if (phrases.length) {
+                text = choice(phrases);
+            } else if (templates.length) {
+                text = makeFromTemplate(choice(templates));
+            } else {
+                text = 'No phrases in this pack.';
+            }
+            if (text && text !== lastText) break;
+        }
+
+        lastText = text;
+        phraseEl.textContent = text;
+        updateSaveUI();
+    }
+    window.pick = pick; // optional for debugging
+
+    // ---------- packs UI ----------
+    function renderPacks() {
+        const names = (DATA.order?.length ? DATA.order : Object.keys(DATA.packs)) || [];
+        if (!packsEl) return;
+
+        packsEl.innerHTML = names.map((name) => `
+      <button class="chip ${name === currentPack ? 'active' : ''}"
+              data-pack="${encodeURIComponent(name)}"
+              title="${name}">
+        <span class="chip-name">${name}</span>
+      </button>
+    `).join('');
+
+        packsEl.querySelectorAll('.chip').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const name = decodeURIComponent(e.currentTarget.getAttribute('data-pack'));
+                if (!DATA.packs[name]) return;
+                currentPack = name;
+                packsEl.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                lastText = '';
+                pick();
+            });
+        });
+    }
+
+    // ---------- Share / Save ----------
+    const SAVED_KEY = 'bb_saved_v1';
+    const loadSaved = () => {
+        try { return new Set(JSON.parse(localStorage.getItem(SAVED_KEY) || '[]')); }
+        catch { return new Set(); }
     };
-    const TEMPLATE_WEIGHT_DEFAULT = 0.75; // 75/25 templates vs phrases
+    const saveSaved = (set) => localStorage.setItem(SAVED_KEY, JSON.stringify([...set]));
+    let saved = loadSaved();
 
-    // ---------- Utilities ----------
-    const $ = (sel, root = document) => root.querySelector(sel);
-    const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
-    const rand = arr => arr[Math.floor(Math.random() * arr.length)];
-    const clamp01 = n => Math.max(0, Math.min(1, n));
+    function toggleSave() {
+        const text = phraseEl?.textContent?.trim();
+        if (!text) return;
+        saved.has(text) ? saved.delete(text) : saved.add(text);
+        saveSaved(saved);
+        updateSaveUI();
+    }
+    function updateSaveUI() {
+        if (!favBtn) return;
+        const text = phraseEl?.textContent?.trim();
+        const isSaved = text && saved.has(text);
+        favBtn.textContent = isSaved ? '★ Saved' : '★ Save';
+        favBtn.classList.toggle('btn-primary', isSaved);
+    }
 
-    const store = {
-        getJSON(key, fallback) {
-            try {
-                const v = localStorage.getItem(key);
-                return v ? JSON.parse(v) : fallback;
-            } catch {
-                return fallback;
+    async function shareCurrent() {
+        const text = phraseEl?.textContent?.trim();
+        if (!text) return;
+        const payload = { title: 'Buzzword Ball', text, url: location.href };
+        try {
+            if (navigator.share) {
+                await navigator.share(payload);
+            } else if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(`${text} — ${location.href}`);
+                console.log('Copied to clipboard');
+            } else {
+                prompt('Copy this phrase:', text);
             }
-        },
-        setJSON(key, value) {
-            try { localStorage.setItem(key, JSON.stringify(value)); } catch { }
-        },
-        get(key, fallback) {
-            try {
-                const v = localStorage.getItem(key);
-                return v ?? fallback;
-            } catch {
-                return fallback;
-            }
-        },
-        set(key, value) {
-            try { localStorage.setItem(key, value); } catch { }
-        }
+        } catch (_) { }
+    }
+
+    if (shareBtn) shareBtn.addEventListener('click', shareCurrent);
+    if (favBtn) favBtn.addEventListener('click', toggleSave);
+
+    // ---------- Tap anywhere on card (no zoom, but DON'T block controls) ----------
+    function isControl(target) {
+        return !!(target.closest('.tooltip') || target.closest('.actions') || target.closest('.packs'));
+    }
+
+    const activate = (e) => {
+        if (isControl(e.target)) return;  // let buttons/chips work
+        pick();
+        if (navigator.vibrate) navigator.vibrate(15);
     };
 
-    // ---------- Data Bootstrapping ----------
-    // Prefer inline window.BUZZWORD_DATA (defined in index.html).
-    // If it's missing, we can optionally try to fetch phrases.json.
-    async function loadData() {
-        if (window.BUZZWORD_DATA) return window.BUZZWORD_DATA;
-
-        try {
-            const res = await fetch('phrases.json', { cache: 'no-store' });
-            if (!res.ok) throw new Error('Failed to fetch phrases.json');
-            const json = await res.json();
-            // Normalize to { order:[], packs:{} } shape
-            if (json && json.order && json.packs) return json;
-        } catch (e) {
-            console.warn('BUZZWORD_DATA not found; using empty dataset.', e);
-        }
-        return { order: [], packs: {} };
+    // Click (desktop + general fallback)
+    if (cardEl) {
+        cardEl.addEventListener('click', activate);
     }
 
-    // ---------- Phrase Generation ----------
-    function getTemplateWeight(pack, overrides) {
-        // Priority: per-pack override from JSON > persisted override map > default
-        if (typeof pack.templateWeight === 'number') {
-            return clamp01(pack.templateWeight);
-        }
-        if (overrides && typeof overrides[pack._name] === 'number') {
-            return clamp01(overrides[pack._name]);
-        }
-        return TEMPLATE_WEIGHT_DEFAULT;
-    }
+    // Touch: prevent double-tap zoom ONLY when we're handling the tap
+    let lastTouchTime = 0;
+    if (cardEl) {
+        cardEl.addEventListener('touchend', (e) => {
+            const controlTap = isControl(e.target);
+            const now = Date.now();
 
-    function buildFromTemplate(tpl) {
-        // Each template has "parts": [ [a,b,c], [x,y,z], ...]
-        const parts = (tpl?.parts || []).map(list => rand(list));
-        // Join with single spaces; caller may post-process punctuation if desired
-        return parts.join(' ');
-    }
-
-    function generateFromPack(pack, weightOverrides) {
-        const phrases = Array.isArray(pack.phrases) ? pack.phrases : [];
-        const templates = Array.isArray(pack.templates) ? pack.templates : [];
-
-        const hasPhrases = phrases.length > 0;
-        const hasTemplates = templates.length > 0;
-
-        // Decide whether to use a template or a phrase
-        let useTemplate = false;
-        if (hasTemplates && hasPhrases) {
-            const w = getTemplateWeight(pack, weightOverrides);
-            useTemplate = Math.random() < w;
-        } else if (hasTemplates) {
-            useTemplate = true;
-        } else if (!hasPhrases) {
-            return '(no phrases/templates in this pack)';
-        }
-
-        if (useTemplate) return buildFromTemplate(rand(templates));
-        return rand(phrases);
-    }
-
-    function generateAcrossSelection(selectedPacks, packsByName, weightOverrides) {
-        // If multiple packs are selected (future-friendly), choose one uniformly
-        const pickName = rand(selectedPacks);
-        const pack = packsByName[pickName];
-        return generateFromPack(pack, weightOverrides);
-    }
-
-    // ---------- UI Rendering ----------
-    function renderPacks({ order, packs }, onSelect, activeName) {
-        const container = $('#packs');
-        if (!container) return;
-
-        container.innerHTML = '';
-        order.forEach(name => {
-            const btn = document.createElement('button');
-            btn.className = 'chip';
-            btn.type = 'button';
-            btn.textContent = name;
-            btn.dataset.pack = name;
-            if (name === activeName) btn.classList.add('chip--active');
-
-            btn.addEventListener('click', () => onSelect(name));
-            container.appendChild(btn);
-        });
-    }
-
-    function setActiveChip(name) {
-        $$('#packs .chip').forEach(ch => {
-            ch.classList.toggle('chip--active', ch.dataset.pack === name);
-        });
-    }
-
-    // ---------- Favorites ----------
-    function loadFavorites() {
-        return store.getJSON(LS_KEYS.favorites, []);
-    }
-    function saveFavorite(text) {
-        if (!text || !text.trim()) return;
-        const favs = loadFavorites();
-        if (!favs.includes(text)) {
-            favs.push(text);
-            store.setJSON(LS_KEYS.favorites, favs);
-        }
-    }
-
-    // ---------- Share ----------
-    async function shareText(text) {
-        if (!text || !text.trim()) return;
-        // Prefer Web Share API
-        if (navigator.share) {
-            try {
-                await navigator.share({ text, title: 'Buzzword Ball' });
-                return;
-            } catch (e) {
-                // fall through to clipboard
+            // Only manage zoom/click suppression for NON-control taps
+            if (!controlTap) {
+                if (now - lastTouchTime < 350) {
+                    e.preventDefault();     // block double-tap zoom
+                    lastTouchTime = now;
+                    return;
+                }
+                lastTouchTime = now;
+                e.preventDefault();       // block the synthetic mouse event
+                activate(e);
+            } else {
+                // Controls: allow default so their own click handlers fire
+                lastTouchTime = now;
             }
-        }
-        // Fallback: copy to clipboard
-        try {
-            await navigator.clipboard.writeText(text);
-            toast('Copied to clipboard');
-        } catch {
-            alert(text);
-        }
+        }, { passive: false });
     }
 
-    // ---------- Toast (tiny helper) ----------
-    let toastTimer = null;
-    function toast(msg, ms = 1400) {
-        let el = $('#toast');
-        if (!el) {
-            el = document.createElement('div');
-            el.id = 'toast';
-            el.style.position = 'fixed';
-            el.style.left = '50%';
-            el.style.bottom = '28px';
-            el.style.transform = 'translateX(-50%)';
-            el.style.padding = '8px 12px';
-            el.style.background = 'rgba(0,0,0,0.8)';
-            el.style.color = '#fff';
-            el.style.borderRadius = '8px';
-            el.style.fontSize = '0.95rem';
-            el.style.pointerEvents = 'none';
-            el.style.zIndex = '9999';
-            el.style.opacity = '0';
-            el.style.transition = 'opacity 150ms ease';
-            document.body.appendChild(el);
-        }
-        el.textContent = msg;
-        el.style.opacity = '1';
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => { el.style.opacity = '0'; }, ms);
-    }
-
-    // ---------- Main App ----------
-    document.addEventListener('DOMContentLoaded', async () => {
-        const data = await loadData();
-        const order = data.order || [];
-        const packsByName = {};
-
-        // Normalize packs and stamp _name for overrides
-        for (const name of order) {
-            const pack = { phrases: [], templates: [], ...(data.packs?.[name] || {}) };
-            pack._name = name;
-            packsByName[name] = pack;
-        }
-
-        if (!order.length) {
-            console.warn('No packs available.');
-        }
-
-        // Active pack: from LS or first in order
-        let activePack = store.get(LS_KEYS.activePack, order[0] || null);
-        if (!packsByName[activePack]) activePack = order[0] || null;
-
-        // Weight overrides (optional, future UI)
-        const weightOverrides = store.getJSON(LS_KEYS.weightOverrides, {});
-
-        // DOM refs
-        const card = $('#card');
-        const phraseEl = $('#phrase');
-        const shareBtn = $('#share');
-        const favBtn = $('#fav');
-
-        // Render pack chips
-        renderPacks(
-            { order, packs: packsByName },
-            (name) => {
-                activePack = name;
-                store.set(LS_KEYS.activePack, name);
-                setActiveChip(name);
-                // Generate immediately for snappy feel
-                const text = generateAcrossSelection([activePack], packsByName, weightOverrides);
-                phraseEl.textContent = text;
-            },
-            activePack
-        );
-
-        // Initial phrase
-        if (activePack) {
-            const text = generateAcrossSelection([activePack], packsByName, weightOverrides);
-            phraseEl.textContent = text;
-        } else {
-            phraseEl.textContent = '(no packs defined)';
-        }
-
-        // Interactions
-        const generate = () => {
-            if (!activePack) return;
-            const text = generateAcrossSelection([activePack], packsByName, weightOverrides);
-            phraseEl.textContent = text;
-        };
-
-        // Tap anywhere on the card to generate
-        if (card) {
-            card.addEventListener('click', (e) => {
-                // Avoid generating when clicking on buttons inside the card
-                const tag = (e.target.tagName || '').toLowerCase();
-                if (tag === 'button') return;
-                generate();
-            });
-        }
-
-        // Keyboard: Space = new phrase, Cmd/Ctrl+S = save favorite, Cmd/Ctrl+Enter = share
-        document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space') {
-                e.preventDefault();
-                generate();
-            } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') {
-                e.preventDefault();
-                const text = phraseEl.textContent.trim();
-                saveFavorite(text);
-                toast('Saved to favorites');
-            } else if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
-                e.preventDefault();
-                shareText(phraseEl.textContent.trim());
-            }
+    // ---------- init: load phrases.json ----------
+    fetch('phrases.json', { cache: 'no-store' })
+        .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+        .then(json => {
+            // expects: { order: [...], packs: { Name: { phrases:[...], templates:[{parts:[...]}] } } }
+            DATA = json || { order: [], packs: {} };
+            currentPack = DATA.order?.[0] || Object.keys(DATA.packs)[0] || null;
+            renderPacks();
+            pick();
+        })
+        .catch(err => {
+            console.error('Failed to load phrases.json:', err);
+            phraseEl.textContent = 'Could not load phrases.';
         });
-
-        // Share / Save buttons
-        if (shareBtn) {
-            shareBtn.addEventListener('click', () => {
-                shareText(phraseEl.textContent.trim());
-            });
-        }
-        if (favBtn) {
-            favBtn.addEventListener('click', () => {
-                const text = phraseEl.textContent.trim();
-                saveFavorite(text);
-                toast('Saved to favorites');
-            });
-        }
-
-        // Ensure active chip style is correct after initial render
-        setActiveChip(activePack);
-    });
-})();
+});
