@@ -124,13 +124,13 @@ body {
     line-height: 1.35;
 
     /* fixed 3-line box (works everywhere) */
-    min-height: calc(3 * 1.35em);
-    max-height: calc(3 * 1.35em);
+    min-height: calc(4 * 1.35em);
+    max-height: calc(4 * 1.35em);
 
     /* clamp & ellipsis for overflow text */
     display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
