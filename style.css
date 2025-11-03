@@ -451,10 +451,12 @@ html {
 
     /* Phrase: wrap safely; never overflow horizontally */
     .phrase {
-        overflow-wrap: normal;
-        /* breaks long tokens if needed */
+        max-width: min(92vw, var(--content-max));
+        padding-inline: var(--gutter);
+        /* keep these off on mobile too */
+        hyphens: none;
         word-break: normal;
-        hyphens: auto;
+        overflow-wrap: normal;
     }
 }
 
