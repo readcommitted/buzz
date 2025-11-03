@@ -137,6 +137,8 @@ body {
 
     /* prevent hyphenation / mid-word breaks */
     -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
     hyphens: none;
     -webkit-hyphenate-character: "";
     word-break: normal;
