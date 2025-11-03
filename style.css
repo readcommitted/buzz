@@ -140,7 +140,7 @@ body {
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
-    -webkit-hyphenate-character: "";
+    /* -webkit-hyphenate-character: ""; */
     word-break: normal;
     /* don’t split words */
     overflow-wrap: normal;
@@ -451,7 +451,7 @@ html {
 
     /* Phrase: wrap safely; never overflow horizontally */
     .phrase {
-        overflow-wrap: anywhere;
+        overflow-wrap: normal;
         /* breaks long tokens if needed */
         word-break: normal;
         hyphens: auto;
@@ -475,22 +475,5 @@ html {
         overflow: visible;
     }
 
-    /* don't crop children */
 
-    .phrase {
-        box-sizing: border-box;
-        /* include padding in width */
-        max-width: 720px;
-        /* comfy line length */
-        width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-        padding-inline: 16px;
-        /* breathing room at edges */
-
-        /* ensure long tokens wrap instead of pushing out */
-        overflow-wrap: anywhere;
-        word-break: normal;
-        hyphens: auto;
-    }
 }
