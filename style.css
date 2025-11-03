@@ -451,40 +451,39 @@ html {
     .subtitle,
     #packs,
     .actions,
-    .phrase {
+    /*.phrase {
         max-width: min(92vw, var(--content-max));
         padding-inline: var(--gutter);
         margin-left: auto;
         margin-right: auto;
-    }
+    }*/
 
     /* Phrase: wrap safely; never overflow horizontally */
-    .phrase {
+    /*.phrase {
         max-width: min(92vw, var(--content-max));
         padding-inline: var(--gutter);
-        /* keep these off on mobile too */
         hyphens: none;
         word-break: normal;
         overflow-wrap: normal;
-    }
+    }*
 }
 
 /* Also helpful on all screens to avoid side cutoffs on narrow widths */
-.app-title,
-.subtitle,
-#packs,
-.actions,
-.phrase {
+    .app-title,
+    .subtitle,
+    #packs,
+    .actions,
+    /*.phrase {
     max-width: min(92vw, var(--content-max));
     margin-left: auto;
     margin-right: auto;
 }
 
 /* --- Desktop: prevent side truncation on the phrase --- */
-@media (min-width: 769px) {
-    .card {
-        overflow: visible;
+    @media (min-width: 769px) {
+        .card {
+            overflow: visible;
+        }
+
+
     }
-
-
-}
