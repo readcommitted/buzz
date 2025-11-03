@@ -148,6 +148,8 @@ body {
 
     /* center */
     margin-inline: auto;
+    max-width: min(92vw, var(--content-max));
+    padding-inline: var(--gutter);
 }
 
 
@@ -381,24 +383,36 @@ html {
 
 
 .phrase {
+    font-size: clamp(1.2rem, 3.2vw + .5rem, 2.2rem);
+
     line-height: 1.35;
     box-sizing: content-box;
-    /* important if you have padding */
     padding-block: 0;
-    /* or include padding in calc */
     min-height: calc(4 * 1lh + 1px);
     max-height: calc(4 * 1lh + 1px);
 
+    /* 4-line clamp + ellipsis */
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 4;
     overflow: hidden;
     text-overflow: ellipsis;
 
+    /* prevent hyphenation / mid-word breaks */
     -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
     hyphens: none;
+    /* -webkit-hyphenate-character: ""; */
     word-break: normal;
+    /* don’t split words */
     overflow-wrap: normal;
+    /* don’t force breaks inside words */
+
+    /* center */
+    margin-inline: auto;
+    max-width: min(92vw, var(--content-max));
+    padding-inline: var(--gutter);
 }
 
 
@@ -477,9 +491,9 @@ html {
     max-width: min(92vw, var(--content-max));
     margin-left: auto;
     margin-right: auto;
-}
+}*/
 
-/* --- Desktop: prevent side truncation on the phrase --- */
+    /* --- Desktop: prevent side truncation on the phrase --- */
     @media (min-width: 769px) {
         .card {
             overflow: visible;
