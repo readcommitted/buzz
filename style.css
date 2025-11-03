@@ -139,7 +139,7 @@ body {
     -webkit-hyphens: none;
     hyphens: none;
     -webkit-hyphenate-character: "";
-    word-break: normal;
+    word-break: anywhere;
     /* don’t split words */
     overflow-wrap: normal;
     /* don’t force breaks inside words */
