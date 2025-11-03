@@ -121,17 +121,17 @@ body {
 
 .phrase {
     font-size: clamp(1.2rem, 3.2vw + .5rem, 2.2rem);
-    line-height: 1.35;
 
-    /* fixed 4-line box */
-    min-height: calc(4 * 1.35em);
-    max-height: calc(4 * 1.35em);
+    line-height: 1.35;
+    box-sizing: content-box;
+    padding-block: 0;
+    min-height: calc(4 * 1lh + 1px);
+    max-height: calc(4 * 1lh + 1px);
 
     /* 4-line clamp + ellipsis */
     display: -webkit-box;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
     overflow: hidden;
     text-overflow: ellipsis;
 
