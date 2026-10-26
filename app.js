@@ -66,13 +66,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const names = (DATA.order?.length ? DATA.order : Object.keys(DATA.packs)) || [];
         if (!packsEl) return;
 
-        packsEl.innerHTML = names.map((name) => `
-      <button class="chip ${name === currentPack ? 'active' : ''}"
-              data-pack="${encodeURIComponent(name)}"
-              title="${name}">
-        <span class="chip-name">${name}</span>
-      </button>
-    `).join('');
+        packsEl.replaceChildren();
+        names.forEach((name) => {
+            const button = document.createElement('button');
+            button.className = `chip ${name === currentPack ? 'active' : ''}`;
+            button.dataset.pack = encodeURIComponent(name);
+            button.title = name;
+            const label = document.createElement('span');
+            label.className = 'chip-name';
+            label.textContent = name;
+            button.appendChild(label);
+            packsEl.appendChild(button);
+        });
 
         packsEl.querySelectorAll('.chip').forEach(btn => {
             btn.addEventListener('click', (e) => {
